@@ -1,0 +1,53 @@
+#include <iostream>
+using namespace std; 
+int cheackRest(char mainString[], char stringForSearch[], int index)
+{
+    int check = 0;
+    bool result = true;
+
+    for (int i = 0; i < strlen(stringForSearch); i++)
+    {
+        if (mainString[index] != stringForSearch[check])
+        {
+            result = false;
+            break;
+        }
+        else
+            check++;
+        index++;
+    }
+    return result;
+}
+int search(char mainString[], char stringForSearch[])
+{
+    int isFound = -1;
+
+    for (int i = 0; i < strlen(mainString); i++)
+    {
+        bool flag = false; 
+        if (mainString[i] == stringForSearch[0])
+            flag = cheackRest(mainString, stringForSearch, i);
+        if (flag)
+            isFound = i; 
+    }
+    return isFound;
+}
+
+int main()
+{
+    int foundAtindex=-1;
+    char st1[50], st2[50];
+    cout<<"st1";
+    cin.ignore();
+    cin.getline(st1, 50);
+    cout << " st2 ";
+    cin.ignore();
+    cin.getline(st2, 50);
+    foundAtindex = search(st1, st2);
+    if (foundAtindex != -1)
+        cout << "String found at index :" << foundAtindex << endl;
+    else
+        cout << "String in not found. " << endl;
+    
+    return 0; 
+}

@@ -1,0 +1,200 @@
+#include<iostream>
+#include<string>
+#include<cctype>
+#define MAX 20
+using namespace std;
+
+void menue()
+{
+	cout << " 1- store charactre.  2- find lenght of string . 3- combine two strings. 4- deletion of charector in string. 5- search charector in string. 6- compare to string. 7- display. 8- exit. \n\n";
+}
+void store(char s1[])
+{
+	cout << " enter the string :";
+	cin.ignore();
+		cin.getline(s1,MAX);
+}
+void display(char show[] )
+{	
+	cout << " display : " << show << endl;
+}
+void findlenght(char s1[])
+{
+	int lenght = 0;
+	while (s1[lenght] != NULL )
+	{
+	lenght += 1;
+	}
+
+	cout << lenght << endl;
+}
+void combine(char s1[])
+{
+	char s2[MAX];
+	cout << " Enter the 2nd string : ";
+	cin.ignore();
+	cin.getline(s2, MAX);
+	char s3[2 * MAX];
+	int lenght1 = 0, lenght2 = 0;
+	while (s1[lenght1] != NULL)
+	{
+		s3[lenght1] = s1[lenght1];
+		lenght1 += 1;
+	}
+	while (s2[lenght2] != NULL)
+	{
+		s3[lenght1] = s2[lenght2];
+		lenght1 += 1;
+		lenght2 += 1;
+	}
+	s3[lenght1] = NULL;
+	cout << s3 << endl;
+}
+void deletion(char s1[])
+{
+	int position = -1;
+	int lenght = 0;
+	char deletion;
+	cout << " Enter deletion character :";
+	cin >> deletion;
+	while (s1[lenght] != NULL)
+	{
+		if (s1[lenght] == deletion)
+		{
+			position = lenght;
+			//cout << " position : " << position << endl;
+		}
+		lenght++;
+	}
+	// cout << " position out of while :" << position << endl;
+	if (position != -1)
+	{
+		//cout << " posiiton : " << position << endl;
+		while (s1[position] != NULL)
+		{
+			s1[position] = s1[position + 1];
+			position++;
+		}lenght -= 1;
+		cout << " successfull deleted  " << endl;
+	}
+	else
+		cout << " not match to the string !!" << endl;
+
+	//cout << s1 << endl;
+	//cout << " SUCCESSFULLy DELETED : " << endl;
+	
+
+}
+void search(char s1[])
+{
+	int position = -1;
+	int lenght = 0;
+	char search;
+	cout << " ENTER charachter to search : ";
+	cin >> search;
+
+	while (s1[lenght] != NULL)
+	{
+		if (s1[lenght] == search)
+		{
+			position = lenght;
+			//cout << " hi i amd in if statemnt " << endl;
+		}
+		lenght++;
+	}
+	if (position != -1)
+	{
+		cout << position << " # index number ,character is : " << s1[position] << endl;
+	}
+	else
+		cout << " Charactor in not match to the string !" << endl;
+	
+}
+void compare(char s1[])
+{
+	int compare = 0;
+	int lenght = 0, lenght1, lenght2;
+	char s2[MAX];
+	cout << " Enter 2nd string to compare : ";
+	cin.ignore();
+	cin.getline(s2, MAX);
+	lenght1 = strlen(s1);
+	cout << " lenght of first string " << lenght1 << endl;
+	lenght2 = strlen(s2);
+	cout << " lenght of 2nd string " << lenght2 << endl;
+
+	if (lenght1 != lenght2)
+	{
+		cout << " NOT EQUAL the lenght of sttring " << endl;
+	}
+	else
+		cout << " Lenght is equal " << endl;
+	while (s1[lenght] != NULL && compare == 0)
+	{
+		if (s1[lenght] != s2[lenght])
+		{
+			compare = 1;
+			lenght += 1;
+		}else
+			lenght += 1;
+	}
+	if (compare == 0)
+	{
+		cout << " strings are equal " << endl;
+
+	}
+	else
+		cout << " character of STRINGS ARE NOT EQUAL! " << endl;
+}
+
+
+
+int main()
+{	
+	char s1[MAX];
+	
+	while (1)
+	{
+		menue();
+		int option;
+		cout << " Enter option : ";
+		cin >> option;
+		if (option == 8)
+			break;
+		switch (option)
+		{
+		case 1:
+			store(s1);
+			cout << endl;
+			break;
+		case 2:
+			findlenght(s1);
+			cout << endl;
+			break;
+		case 3:
+			combine(s1);
+			cout << endl;
+			break;
+		case 4 :
+			deletion(s1);
+			cout << endl;
+			break;
+		case 5:
+			search(s1);
+			cout << endl;
+			break;
+		case 6:
+			compare(s1);
+			cout << endl;
+			break;
+		case 7:
+			display(s1);
+			cout << endl;
+			break;
+		}
+
+	}
+	
+	
+	
+}

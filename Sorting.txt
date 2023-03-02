@@ -1,0 +1,280 @@
+///////////////////////////////////////////////////////////////////////////
+//*************************************************************************
+// DSA BST Practice														  * 
+// Developer:Mohammad Usman												  *
+// problem statement: Sortin        					 				  *
+// DAte: 20/5/2022														  *
+// Submited to : Dr. Muhammad Nadeem							          *
+//*************************************************************************
+///////////////////////////////////////////////////////////////////////////
+#include <iostream>
+using namespace std; 
+#define MAX 10
+class Sorting {
+private: 
+	int arr[MAX];
+	int numOfElement = -1;
+public:
+	void getData();
+	void displayData();
+	void makeItEmpty();
+	void bubbleSorting();
+	void SelectionSorting();
+	void insertaionSorting();
+	void mergeSorting();
+	void quickSorting();
+	void swap(int &, int &);
+	int	 partition( int, int);
+	void quickSort(int, int);
+	void mergeSort(int [],int, int);
+	void merge(int[],int, int, int);
+};
+void Sorting::getData() {
+	do {
+		cout << "\tinput the size | max= "<<MAX<<"  ";
+		cin >> numOfElement;
+		if (numOfElement >= 0 && numOfElement <= MAX)
+			break;
+		else
+			cout << "\tneed valied input. " << endl;
+	} while (true);
+
+	for (int i = 0; i < numOfElement; i++)
+	{
+		cout << "\t Enter the value: ";
+		cin >> arr[i];
+	}
+	cout << "\tSuccessufly Stored Data. " << endl;
+}
+void Sorting::displayData() {
+	if (numOfElement != -1)
+	{
+		cout << "\t Data is \n \t";
+		for (int i = 0; i < numOfElement; i++)
+			cout << arr[i] << "  ";
+	}
+	else	cout << "\t Array is empty. " << endl;
+	
+}
+void Sorting::makeItEmpty() {
+	numOfElement = -1;
+	//nothing 
+}
+void Sorting::bubbleSorting() {
+	
+	if (numOfElement != -1)
+	{
+		for (int i = 0; i < numOfElement - 1; i++)// controll passes
+		{
+			for (int j = 0; j < numOfElement - 1; j++)// going through the elements
+			{
+				if (arr[j] > arr[j + 1])//comapaer two elements
+					swap(arr[j], arr[j + 1]);
+			}
+		}
+		cout << "\t Suecssfuly sorted " << endl;
+	}
+	else
+		cout << "\t Array is empty. " << endl;
+}
+void Sorting::SelectionSorting()
+{
+	int min;
+	if (numOfElement != -1)
+	{
+	for (int i = 0; i < numOfElement-1; i++)
+	{
+		min =i;
+		for (int j = i + 1; j < numOfElement; j++)
+		{
+			if (arr[min] > arr[j])
+				min = j;
+		}
+		swap(arr[i], arr[min]);
+	}
+	cout << "\t Suecssfuly sorted " << endl;
+	}
+	else
+	cout << "\t Array is empty " << endl;
+}
+void Sorting::insertaionSorting() {
+	int temp;
+	if (numOfElement != -1)
+	{
+	for (int i = 1; i < numOfElement; i++)// it mean that unsorted list is form 1
+	{
+		temp = arr[i];
+		int j = i - 1;// less then i is sorted list
+		while (j >= 0 && arr[j]>temp)// if the value of sorted list is grather then 
+		{
+			arr[j + 1] = arr[j];// shift the sorted array by on
+			j--;
+		}
+		arr[j + 1] = temp;// assigin the temp value at it proper postion
+	}
+	cout << "\t Suecssfuly sorted " << endl;
+	}
+	else
+		cout << "\t Array is empty " << endl;
+
+
+}
+void Sorting::mergeSorting() {
+	if (numOfElement != -1)// not empty
+		mergeSort(arr,0, numOfElement - 1);// go to that functuion
+	else
+		cout << "\t Array is empty " << endl;
+}
+void Sorting::quickSorting()
+{
+	if (numOfElement != -1)
+		quickSort(0, numOfElement - 1);// this is just for comming from the main function inside the class
+		// two value passed to the quick function
+	else
+		cout << "\t Array is empty. " << endl;
+}
+void Sorting::swap(int& num1, int& num2) {
+	int temp;
+	temp = num1;
+	num1 = num2;
+	num2 = temp;
+}
+int  Sorting::partition( int firstElement, int lastElement) {
+	int start, end;
+	start = firstElement;
+	end = lastElement;
+	int pivot = arr[firstElement];// choice the first element 
+	while (start<end)
+	{
+
+		while (arr[start]<=pivot)// comper with the pivot number
+		{
+			start++;
+		}
+		while (arr[end]>pivot)// comper with the pivot number
+		{
+			end--;
+		}
+		if (start < end)
+			swap(arr[start], arr [end]);// swap if its nessasary 
+	}
+
+	swap(arr[firstElement], arr[end]); // at the last swap the pivot value to its proper postion
+		return end;// return it postion
+}
+void Sorting::quickSort(int fElement, int lElement)
+{
+	int loc;
+	if (fElement < lElement)
+	{
+		loc = partition(fElement, lElement);//get the location of pivot element postion
+		quickSort(fElement, loc - 1);// call again this function first from start untill goted location -1
+		quickSort(loc + 1, lElement);// second from goted location+1 untill end
+	}
+}
+void Sorting::mergeSort(int arr [],int fElement, int lElement) {
+	int mid;
+	if (fElement < lElement) {
+		mid = (fElement + lElement) / 2;// devide the array in to two part
+		mergeSort(arr,fElement, mid);// call again this function by passing firstindex and mid 
+		mergeSort(arr,mid + 1, lElement);//call aging this function by passing mid+1 and last index
+		merge(arr,fElement, mid, lElement);// call merge function
+	}
+
+}
+void Sorting::merge(int arr[],int fElement, int mid, int lElement) {
+	int i = fElement;// first sub list
+	int j = mid + 1;// secend sub list
+	int k = fElement; //temp array index controler
+	int temp[MAX] ={0};
+	
+	while (i<= mid && j <= lElement)// fisrt sublist should go untill reach mid
+	{								// secend sublist should go untill last 
+		if (arr[i] <= arr[j])// store the less element in to the temp
+		{
+			temp[k] = arr[i];
+			i++;// point to the next element
+		}
+		else
+		{ 
+			temp[k] = arr[j];// store the less element in to the temp
+			j++;// point to the next element
+		}
+		k++;// // point to the next index
+	}
+	
+		while (j<= lElement)// store all remening elements in temp array if any
+		{
+			temp[k] = arr[j];
+			j++;
+			k++;
+		}
+	
+		while (i<=mid)// store all remening elements temp array if any
+		{
+			temp[k] = arr[i];
+			i++;
+			k++;
+		}
+
+	for ( k = fElement; k <= lElement; k++)// store all element of tem array to the orainganel arry
+		 arr[k]= temp[k];
+
+}
+int main()
+{
+	Sorting obj;
+	int option;
+	do {
+
+		cout << "\n\t*****Main Menu*****" << endl;
+		cout << "\t 1.Get Data" << endl;
+		cout << "\t 2.Display Data" << endl;
+		cout << "\t 3.Make it Empty " << endl;
+		cout << "\t 4.Bubble Sorting " << endl;
+		cout << "\t 5.Selection Sorting " << endl;
+		cout << "\t 6.Insertion Sorting " << endl;
+		cout << "\t 7.Quick Sorting " << endl;
+		cout << "\t 8.Merge Sorting " << endl;
+
+
+		cout << "\t 9.Exit" << endl;
+		cout << "\t Enter Option: ";
+		cin >> option;
+		cout << endl;
+		switch (option)
+		{
+		case 1:
+			obj.getData();
+			break;
+		case 2:
+			obj.displayData();
+			break;
+		case 3:
+			obj.makeItEmpty();
+			break;
+		case 4: 
+			obj.bubbleSorting();
+			break;
+		case 5: 
+			obj.SelectionSorting();
+			break;
+		case 6: 
+			obj.insertaionSorting();
+			break;
+		case 7:
+			obj.quickSorting();
+			break;
+		case 8:
+			obj.mergeSorting();
+			break;
+		case 9:
+			//nothing 
+			break;
+		default:
+			cout << "\tWrong Choice, Try Again!." << endl;
+			break;
+		}
+	} while (option != 9);
+	return 0; 
+}

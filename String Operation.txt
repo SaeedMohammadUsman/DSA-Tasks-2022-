@@ -1,0 +1,315 @@
+///////////////////////////////////////////////////////////////////////////
+//*************************************************************************
+// DSA BST Practice														  * 
+// Developer:Mohammad Usman												  *
+// problem statement: String Operation					 				  *
+// DAte: 15/3/2022														  *
+// Submited to : Dr. Muhammad Nadeem							          *
+//*************************************************************************
+///////////////////////////////////////////////////////////////////////////
+#include <iostream>
+#include <string>
+#include <cstring>
+#include <string.h>
+using namespace std;
+#define MAX 50
+void readString(char[]);
+void displayString(char[]);
+int findLength(char []);
+void Concatenation(char[], char[]);
+bool checkRest(char[], char[], int);
+int search(char[],char[]);
+void charDelete(char[], char[] ,int );
+void Compare(char[], char[]);
+void upcase(char[]);
+void lowcase(char[]);
+int main()
+{
+	char aString[ MAX];
+	char aString2[MAX];
+	char charForSearch[MAX];
+	int option;
+	int traker = 0;
+	int foundAtIndex;
+
+	//use do while loop for iterate
+	do {
+
+		cout << "\n\t*****Main Menu*****" << endl;
+		cout << "\t 1.Read String" << endl;
+		cout << "\t 2.Display String" << endl;
+		cout << "\t 3.Find Length " << endl;
+		cout << "\t 4.Concatenation" << endl;
+		cout << "\t 5.String Search" << endl;
+		cout << "\t 6.String Deletion" << endl;
+		cout << "\t 7.String Compare" << endl;
+		cout << "\t 8.Convert to Upcase" << endl;
+		cout << "\t 9.Convert to Lowercase" << endl;
+		cout << "\t 10.Exit" << endl;
+		cout << "\t Enter Option: ";
+		cin >> option;
+		cout << endl;
+		//switch option
+		switch (option)
+		{
+		case 1:
+			cout << "\n\t*****Read String*****" << endl;
+			cout << "\t Enter the String: ";
+			readString(aString);
+			traker++;
+			break;
+		case 2:
+			
+			cout << "\n\t*****Display String*****" << endl;
+			if (traker == 0)
+				cout << "\tNo String is stored.\n\tPlease enter String first" << endl;
+			else
+				displayString(aString);
+
+			break;
+			
+		case 3:
+			cout << "\n\t*****Length*****" << endl;
+
+			if (traker == 0)
+				cout << "\tNo String is stored.\n\tPlease enter String first" << endl;
+			else
+				cout << "\tlength of String is " << findLength(aString) << endl;
+			break;
+		
+		case 4:
+
+			cout << "\n\t*****Concatenation*****" << endl;
+			if (traker == 0)
+				cout << "\tNo String is stored.\n\tPlease enter String first" << endl;
+
+			else
+				cout << "\t Enter the second String: ";
+				cin.ignore();
+				cin.getline(aString2, MAX);
+				Concatenation(aString, aString2);
+				
+				break;		
+		case 5:
+			cout << "\n\t*****Search*****" << endl;
+			if (traker == 0)
+				cout << "\tNo String is stored.\n\tPlease enter String first" << endl;
+
+			else
+				
+			cout << "\t Enter String to search: ";
+			cin.ignore();
+			cin.getline(charForSearch, MAX);
+			foundAtIndex= search(aString, charForSearch);
+				if (foundAtIndex == -1)
+					cout << "\t String is Not Found. " << endl;
+				else
+					cout << "\tString is found at Postion " << foundAtIndex +1 << endl;
+			break;
+			
+		case 6:
+			cout << "\n\t*****Deletion*****" << endl;
+
+			if (traker == 0)
+				cout << "\tNo Data is stored.\n\tPlease enter data first" << endl;
+
+			else
+				cout << "\t Enter String to Delete: ";
+				cin.ignore();
+				cin.getline(charForSearch, MAX);
+				foundAtIndex = search(aString, charForSearch);
+				if (foundAtIndex == -1)
+					cout << "\t String is Not Found. " << endl;
+				else
+					charDelete(aString, charForSearch,foundAtIndex);
+
+			break;
+			
+		case 7:
+			cout << "\n\t*****Compare*****" << endl;
+			if (traker == 0)
+				cout << "\tNo Data is stored.\n\tPlease enter data first" << endl;
+			else
+				cout << "\t Enter the second String: ";
+				cin.ignore();
+				cin.getline(aString2,15);
+				Compare(aString, aString2);
+			break;
+			
+		case 8:
+			cout << "\n\t*****Convert to Upcase*****" << endl;
+			if (traker == 0)
+				cout << "\tNo Data is stored.\n\tPlease enter data first" << endl;
+			else
+				upcase(aString);
+			break;
+		case 9:
+			cout << "\n\t*****Convert to Lowercase*****" << endl;
+			if (traker == 0)
+				cout << "\tNo Data is stored.\n\tPlease enter data first" << endl;
+			else
+				lowcase(aString);
+				break;
+		case 10:
+
+			cout << "\tThank You For using Software." << endl;
+			break;
+		default:
+			system("cls");
+			cout << "\tWrong Choice, Try Again!." << endl;
+			break;
+		}
+	} while (option != 10);
+
+	return 0;
+}
+void readString(char arrayOfString[]) {
+	cin.ignore();
+	cin.getline(arrayOfString, MAX);
+
+}
+void displayString(char arrayOfString[]) {
+	cout << "\t Your String is: " << arrayOfString << endl;
+}
+int findLength(char arrayOfString[]) {
+
+	int len = strlen(arrayOfString);//using pre define strlen function for finding length of string
+	return len;
+}
+void Concatenation(char arrayOfString[], char arrayOfString2[])
+{
+	char arrayOfString3[2 * MAX];
+	int lengthString1, lengthString2;
+	int pos;
+	lengthString1 = findLength(arrayOfString);
+	lengthString2 = findLength(arrayOfString2);
+	for (int i = 0; i < lengthString1; i++)
+	{
+		arrayOfString3[i] = arrayOfString[i];
+		pos = i;
+	}
+	
+	for (int i = 0; i < lengthString2; i++)
+	{
+		arrayOfString3[++pos] = arrayOfString2[i];
+	}
+	arrayOfString3[++pos] = NULL;
+	cout << "\t Successfuly Concatenated. " << endl;
+	cout <<"\t String is = "<< arrayOfString3 << endl;
+
+}
+int search(char arrayOfString[], char chForSearch[])
+{
+	int lenarrayOfString = findLength(arrayOfString);
+	int isFound = -1;
+
+	for (int i = 0; i < lenarrayOfString; i++)
+	{
+		bool flag = false; 
+		if (arrayOfString[i] == chForSearch[0])
+			flag = checkRest(arrayOfString, chForSearch, i);
+		if (flag)
+			isFound = i;
+	}
+	return isFound;
+}
+bool checkRest(char arrayOfString[], char chForSearch[], int index)
+{
+	bool result = true;
+	int check = 0; 
+	int lenarrayChForSearch = findLength(chForSearch);
+	for (int i = 0; i < lenarrayChForSearch; i++)
+	{
+		if (arrayOfString[index] != chForSearch[check])
+		{
+			result = false;
+			break;
+		}
+		else
+			check++;
+			index++;
+	}
+	return result; 
+}
+void charDelete(char arrayOfString[], char chForDelete[], int findAtindex) {
+	int lenarrayOfString = findLength(arrayOfString);//find the lenth of string by calling findLength function
+	int lenchForDelete = findLength(chForDelete); // find the lenth of string2 by calling findlength.
+	int k = lenchForDelete + findAtindex;
+	for (int i = findAtindex; i < lenarrayOfString; i++)
+	{
+		arrayOfString[i] = arrayOfString[k];
+		k++;
+	}
+	cout << "\t Successfuly Deleted. " << endl;  
+	displayString(arrayOfString);
+
+}
+void Compare(char arrayOfString[], char arrayOfString2[]) {
+	int result;
+	result = strcmp(arrayOfString, arrayOfString2);
+
+	if (result < 0)
+		cout << "\tSting 1 is less then string 2. " << endl;
+	else if (result == 0)
+		cout << "\tBoth String are Equal. " << endl;
+	else 
+		cout << "\tSting 1 is Greater then string 2. " << endl;
+
+}
+void upcase(char arrayOfString[]) {
+	//strupr(arrayOfString);
+	for (int i = 0; i < strlen(arrayOfString); i++)
+	{
+		if (arrayOfString[i] >= 'a' && arrayOfString[i] <= 'z')
+			arrayOfString[i] = arrayOfString[i] - 32;
+		else
+			arrayOfString[i] = arrayOfString[i];
+	}
+	cout << "\t\t Successfuly UperCased. " << endl;
+
+}
+void lowcase(char arrayOfString[]) {
+	//strupr(arrayOfString);
+	for (int i = 0; i < strlen(arrayOfString); i++)
+	{
+		if (arrayOfString[i] >= 'A' && arrayOfString[i] <= 'Z')
+			arrayOfString[i] = arrayOfString[i] + 32;
+		else
+			arrayOfString[i] = arrayOfString[i];
+	}
+	cout << "\t\t Successfuly LowerCased. " << endl;
+}
+
+
+/*
+int search(char arrayOfString[],char chForSearch[]) {
+	bool found = true;
+	int pos = -1;
+	int k;
+	int lenarrayOfString = findLength(arrayOfString);
+	for (int i = 0; i < lenarrayOfString; i++)
+	{
+		cout << "i= " << i << endl;
+		if (arrayOfString[i] == chForSearch[0])
+		{
+			pos = k = i;
+			int lenchForSearch = findLength(chForSearch);
+			for (int j = 1; j < lenchForSearch; j++)
+			{
+				if (chForSearch[j] != arrayOfString[++k])
+					found = false;
+			}
+
+		}
+
+	}
+	if (found != true)
+		return -1;
+	else
+		return pos;
+
+
+}*/
+
+
+

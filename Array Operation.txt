@@ -1,0 +1,328 @@
+///////////////////////////////////////////////////////////////////////////
+//*************************************************************************
+// DSA BST Practice														  * 
+// Developer:Mohammad Usman												  *
+// problem statement: Array Operation					 				  *
+// DAte: 22/2/2022														  *
+// Submited to : Dr. Muhammad Nadeem							          *
+//*************************************************************************
+///////////////////////////////////////////////////////////////////////////
+
+#include <iostream>
+using namespace std; 
+#define MAX 20
+void readDAta( int[], int, int&);
+void displayData( int[], int);
+void insert(int[],int&, int, int);
+void findLargest(int[], int);
+int search( int[], int,int);
+void deletetion(int[], int&, int);
+int main()
+{
+	int aData[MAX];
+	int option;
+	int numOfElement;
+	int traker = 0;
+	int insetAtpos, insertValue;
+	int foundAtIndex = -1;
+	//get valied value for numOfElement
+	do {
+		cout << "\tinput the size | max=20 ";
+		cin >> numOfElement;
+		if (numOfElement >= 0 && numOfElement <= 20)
+			break;
+		else
+			cout << "\tneed valied input. " << endl;
+	} while (true);
+	//use do while loop for iterate
+	do {
+		
+		cout << "\n\t*****Main Menu*****" << endl;
+		cout << "\t 1.Read Data" << endl;
+		cout << "\t 2.Display Data" << endl;
+		cout << "\t 3.Insertaion " << endl;
+		cout << "\t 4.Deletion" << endl;
+		cout << "\t 5.Search" << endl;
+		cout << "\t 6.Sorting" << endl;
+		cout << "\t 7.Find Max Value & Min Value" << endl;
+		cout << "\t 8.Exit" << endl;
+		cout << "\t Enter Option: ";
+		cin >> option;
+		cout << endl;
+		//switch option
+		switch (option)
+		{
+		case 1:
+			cout << "\n\t*****Read Data*****" << endl;
+			readDAta( aData, numOfElement, traker);
+			break;
+		case 2:
+			cout << "\n\t*****Display Data*****" << endl;
+			if (traker == 0)
+				cout << "\tNo Data is stored.\n\tPlease enter data first" << endl;
+			else
+				displayData( aData, numOfElement);
+
+			break;
+		case 3:
+			cout << "\n\t*****Insertaion*****" << endl;
+
+			if (traker == 0)
+				cout << "\tNo Data is stored.\n\tPlease enter data first" << endl;
+
+			else
+				do {
+					cout << "\tDo you Want to insert new Value in the array:" << endl;
+					cout << "\t\t 1. Yes " << endl;
+					cout << "\t\t 2. Display Data " <<endl;
+
+					cout << "\t\t 3. No ";
+
+
+					cin >> option;
+					switch (option)
+					{
+					case 1:
+					 // if user want so call the insert function
+						//get new value
+
+						cout << "\tEnter the position: ";
+						cin >> insetAtpos;
+						//pass the varaiblest to the user 
+						if (insetAtpos <= numOfElement + 1)
+						{
+							cout << "\tEnter new value: ";
+							cin >> insertValue;
+							insert( aData, numOfElement, insertValue, insetAtpos);
+						}
+
+						else
+							cout << "\tSorry! you Can't insert new Data. Out Of Space.  " << endl;
+						break;
+					
+					case 2:
+						displayData(aData, numOfElement);
+						break;
+					case 3: 
+						// go out of the switch
+						cout << "\tyou are not inserting new element. " << endl;
+						break;
+					default:// don't accept invalied input
+						cout << "\tInvalied input. " << endl;
+						break;
+					}
+				} while (option !=3);
+			break;
+		case 4:
+			
+			cout << "\n\t*****Deletion*****" << endl;
+			if (traker == 0)
+				cout << "\tNo Data is stored.\n\tPlease enter data first" << endl;
+
+			else
+
+				do {
+					cout << "\tSelect your Choice: " << endl;
+					cout << "\t\t 1. Delete by Value " << endl;
+					cout << "\t\t 2. Delete by Postion " << endl;
+					cout << "\t\t 3. Display Data " << endl;
+					cout << "\t\t 4. Back To main Menue ";
+					cin >> option;
+					switch (option)
+					{
+					case 1:
+						
+						   //get the value value
+
+						cout << "\tEnter the Value Which you want to delete: ";
+						cin >> insertValue;
+						//pass the varaiblest to the search function 
+						foundAtIndex = search(aData, numOfElement, insertValue);
+						if (foundAtIndex != -1)
+						{
+							deletetion (aData, numOfElement, foundAtIndex);
+							traker = numOfElement;
+
+						}
+						else
+							cout << "\tYour Data in Already Not Exist. " << endl;
+						//else
+							//cout << "\tSorry! you Can't insert new Data. Out Of Space.  " << endl;
+						break;
+
+					case 2:
+						cout << "\tEnter the position: ";
+						cin >> insetAtpos;
+						if (insetAtpos <= numOfElement)
+						{
+							foundAtIndex = insetAtpos - 1;
+							deletetion(aData, numOfElement, foundAtIndex);
+							traker = numOfElement;
+						}
+						else
+						{			
+							cout << "\tOUT OF RANGE! . " << endl;
+							cout << "\tDELETION IS NOT POSSIABLE! . " << endl;
+						}
+
+
+						break;
+					case 3:
+						displayData(aData, numOfElement);
+					case 4:
+						// go out of the loop
+						break;
+					default:// don't accept invalied input
+						cout << "\tInvalied input. " << endl;
+						break;
+					}
+				} while (option != 4);
+			break;
+		case 5:
+			cout << "\n\t*****Search*****" << endl;
+			if (traker == 0)
+				cout << "\tNo Data is stored.\n\tPlease enter data first" << endl;
+
+			else
+			{
+				cout << "\tEnter value for Search: ";
+				cin >> insertValue;
+				foundAtIndex= search(aData,numOfElement,insertValue);
+
+				if (foundAtIndex != -1)
+					cout << "\t Data is [" << foundAtIndex <<" ]= "<<aData[foundAtIndex] << endl;
+				else
+					cout << "\t Data is not found. " << endl;
+			}
+
+			break;
+		case 6:
+			cout << "\n\t*****Sorting*****" << endl;
+
+			if (traker == 0)
+				cout << "\tNo Data is stored.\n\tPlease enter data first" << endl;
+
+			//else
+				//room->GuestSummaryReport();
+			break;
+		case 7:
+
+			cout << "\n\t*****Find Max value*****" << endl;
+
+			if (traker < 2)
+				cout << "\tFor Finding max value you need at Least 2 stored data.\n\t" << endl;
+
+			else
+				findLargest( aData,numOfElement);
+				break;
+			break;
+		case 8:
+			
+			cout << "\tThank You For using Software." << endl;
+			break;
+		default:
+			system("cls");
+			cout << "\tWrong Choice, Try Again!." << endl;
+			break;
+		}
+	} while (option != 8);
+
+	return 0; 
+}
+
+void readDAta( int arrayOfData[], int nData, int& tra)
+	{
+	
+		system("cls");
+		cout << "\t Get Data: " << endl;
+		for (int  i = 0; i < nData; i++)
+		{
+			cout << "Enter [" << i+1 << " ]= ";
+			cin >> arrayOfData[i];
+			tra++;
+		}
+
+	}
+void displayData( int arryoOFdata[], int nData)
+{
+	system("cls");
+	cout << "\t Your Data is: " << endl;
+	cout << "\t  ";
+	for ( int i = 0; i < nData; i++)
+	{
+		cout << arryoOFdata[i] << "	";
+	}
+	cout << endl;
+}
+void insert(int arryoOFdata[], int& nData, int neV, int neP) {
+
+	if (neP - 1 == 0) {// insert at first element 
+		for (int i = nData; i >= 0; i--)
+		{
+			arryoOFdata[i + 1] = arryoOFdata[i];//shift one point all element
+		}
+		arryoOFdata[neP - 1] = neV;
+		nData++;//increment the numebr of element
+		cout << "\tNew Value successfuly inserted. " << endl;
+	}
+	else if (neP - 1 == nData)//insert at last elemnt
+	{
+		arryoOFdata[neP - 1] = neV;//put the value at the end of array and
+		nData++;//increment the size of array by one
+		cout << "\tNew Value successfuly inserted. " << endl;
+
+	}
+
+	else {
+		for (int i = nData; i >= neP - 1; i--)
+		{
+			arryoOFdata[i + 1] = arryoOFdata[i]; //shift the element from the last till given position
+		}
+		arryoOFdata[neP - 1] = neV;//put the value at the end of array and
+		nData++;//increment the size of array by one
+		cout << "\tNew Value successfuly inserted. " << endl;
+	}
+}
+void findLargest( int arryoOFdata[], int nData)
+{
+	int minLoc = 0;
+	int maxLoc = 0;
+	int maxValue = arryoOFdata[0];//assume the first value us a largest
+	int minValue= arryoOFdata[0];//assume the first value us a smallest
+	for (int i = 1; i < nData; i++)
+	{
+		if (arryoOFdata[i] > maxValue)
+		{
+			maxValue = arryoOFdata[i];//change the maxvalue
+			maxLoc = i;
+		}
+		if (arryoOFdata[i] < maxValue)
+		{
+			minValue = arryoOFdata[i];//change the maxvalue
+			minLoc = i;
+		}
+	}
+	cout << "\t Max Value is " << arryoOFdata[maxLoc] << endl;
+	cout << "\t Min Value is " << arryoOFdata[minLoc] << endl;
+
+}
+int search( int arryoOFdata[], int nData, int valueForSearch)
+{
+	int found = -1;
+	
+	for (int i = 0; i < nData; i++)
+	{
+		if (valueForSearch == arryoOFdata[i])
+			found = i;
+	}
+	return found;
+}
+void deletetion(int arryoOFdata[], int& nData, int deleteFromIndex) {
+	for (int i = deleteFromIndex; i <= nData; i++)
+	{
+		arryoOFdata[i] = arryoOFdata[i + 1];
+	}
+	nData--;
+	cout << "\t successfuly Deleted. " << endl;
+
+}

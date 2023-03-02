@@ -1,0 +1,490 @@
+///////////////////////////////////////////////////////////////////////////
+//*************************************************************************
+// DSA BST Practice														  * 
+// Developer:Mohammad Usman												  *
+// problem statement: Tree Implementaion				 				  *
+// DAte: 2/6/2022														  *
+// Submited to : Dr. Muhammad Nadeem							          *
+//*************************************************************************
+///////////////////////////////////////////////////////////////////////////
+#include<iostream>
+using namespace std;
+class Tree {
+private:
+
+	Tree* left;
+	Tree* right;
+	Tree* parent;
+	//Tree* root;// = NULL;
+	//Tree* temp = NULL;
+public:
+	int key;
+	void create(Tree*&);
+	void display(Tree*);
+	void preOrder(Tree*);
+	void postOrder(Tree*);
+	void inOrder(Tree*);
+	//bool search(int );
+	Tree* minmum(Tree*);
+	Tree* maxium(Tree*);
+	Tree* predecessor(Tree*,Tree*);
+	Tree* ser(Tree*,int );
+	Tree* successor(Tree*,Tree*);
+	void deleteNode(Tree*, Tree*);
+	
+};
+void Tree::create(Tree*& root) {
+	int opt;
+	Tree* newNode;
+	Tree* flag,*temp;
+	flag = temp =parent= NULL;
+	do {
+		cout << "\t\t Select the Choice: " << endl;
+		cout << "\t\t 1. Add new value: " << endl;
+		cout << "\t\t 2. Back To Main Menue: ";
+		cin >> opt;
+		switch (opt)
+		{
+		case 1: 
+			newNode = new Tree;
+			newNode->left = newNode->right =parent= NULL;
+			cout << "Enter the Value: ";
+			cin >> newNode->key;
+
+			if (root == NULL)// this is first node;
+				root = newNode;
+
+			else {			
+			flag = root;
+			while (flag!= NULL)// if its null it mean we reach to the leaf node
+			{
+				temp = flag;// save this postion with you
+				if (newNode->key >= flag->key)
+					flag = flag->right;// if  new value grater go right sub tree
+				else
+					flag = flag->left;//if new value less then go left sub tree
+			}
+
+			if (newNode->key > temp->key)// now look to the saved postion
+				temp->right = newNode; // insert at right if its grater 
+			else
+				temp->left = newNode;// insert at left if its less then
+			newNode->parent = temp;//at every case the parent will equil to  temp;
+			}
+
+			break;
+		case 2: 
+				// nothing 
+			break;
+
+		default:
+			cout << "\t\t Wrong Choice " << endl;
+			break;
+		}
+	} while (opt != 2);
+	
+}
+void Tree::display(Tree * root) {
+	int opt;
+	do {
+		cout << "\t\t Select the Choice: " << endl;
+		cout << "\t\t 1. Dispay Inorder: " << endl;
+		cout << "\t\t 2. Dispay Postorder: " << endl;
+		cout << "\t\t 3. Dispay Preorder: " << endl;
+		cout << "\t\t 4. Back To Main Menue: ";
+		cin >> opt;
+
+		switch (opt)
+		{
+		case 1:
+			cout << "\t\t Tree is Showing as In Order.\n \t\t ";
+			inOrder(root);
+			cout << endl;
+			break;
+		case 2: 
+			cout << "\t\t Tree is Showing as Post Order.\n \t\t ";
+			postOrder(root);
+			cout << endl;
+			break;
+		case 3: 
+			cout << "\t\t Tree is Showing as Pre Order.\n \t\t ";
+			preOrder(root);
+			cout << endl;
+			break;
+		case 4:
+			//nothing
+			break;
+
+		default:
+			cout << "\t\t Wrong Choice " << endl;
+			break;
+		}
+	} while (opt != 4);
+}
+void Tree::preOrder(Tree* RootNode) {
+	if (RootNode == NULL)
+		return;
+	else
+	{
+		cout << RootNode->key << " ";
+		preOrder(RootNode->left);
+		preOrder(RootNode->right);
+	}
+}
+void Tree::postOrder(Tree* RootNode) {
+	if (RootNode == NULL)
+		return;
+	else {
+		postOrder(RootNode->left);
+		postOrder(RootNode->right);
+		cout << RootNode->key << " ";
+	}
+
+}
+void Tree::inOrder(Tree* RootNode) {
+	if (RootNode == NULL)
+		return;
+	else
+	{
+		inOrder(RootNode->left);
+		cout << RootNode->key << " ";
+		inOrder(RootNode->right);
+	}
+
+}
+//bool Tree::search(int forSearch) {
+//	bool found = false;
+//	if (root->key == forSearch)
+//		found = true;
+//	else 
+//	{
+//		flag = root;
+//		while (flag!=NULL )
+//		{
+//			if (flag->key == forSearch)
+//			{
+//				found = true;
+//				break;
+//			}
+//			if ( forSearch > flag->key  )
+//
+//				flag = flag->right;
+//			else
+//				flag = flag->left;
+//		}
+//
+//	}
+//
+//	return found;
+//}
+Tree* Tree::minmum(Tree*root) {
+	Tree* flag;
+	flag = root;
+	while (flag->left != NULL)
+	{
+			flag = flag->left;
+	}
+	return flag;
+}
+Tree* Tree::maxium(Tree* root) {
+	Tree* flag;
+	flag = root;
+	while (flag->right != NULL)
+	{
+			flag = flag->right;
+	}
+	return flag;
+}
+Tree* Tree::ser(Tree * root,int forSearch ) {
+	bool found = false;
+	Tree* flag;
+	if (root->key == forSearch)
+		return root;
+	else {
+			flag = root;
+			while (flag != NULL)
+			{
+				if (flag->key == forSearch)
+				{
+					found = true;
+					return flag;
+					break;
+				}
+				if (forSearch > flag->key)
+
+					flag = flag->right;
+				else
+					flag = flag->left;
+			}
+
+		}
+	if (!found)
+		return NULL;
+	}
+Tree* Tree::predecessor(Tree * root,Tree *loc) {
+	Tree* pred=NULL;
+	Tree* temp = NULL;
+	Tree* flag = NULL;
+	pred = minmum(root);
+	if (pred->key == loc->key)
+		return pred;
+	if (loc->left != NULL)
+	{
+		pred = maxium(loc->left);
+		return pred;
+	}
+	else {
+		temp = loc;
+		while (temp!=NULL )
+		{
+			flag = temp->parent;
+			if (temp == flag->right)
+			{
+				pred = flag;
+				return pred;
+			}
+			else
+			{
+			//cout << flag->key << endl;
+			temp = temp->parent;
+			}
+
+		}
+		return root;
+	}
+
+	//return loc;
+	//if (root == NULL)
+	//	return loc;
+	////cout << root->key << "\t\t df" << endl;
+	////Tree* pred;
+	//if (root->key==loc->key)
+	//{
+	//	if (root->left != NULL)
+	//	{
+	//		return maxium(root->left);
+	//	}
+	//}
+	//else if (root->key>loc->key)
+	////else if (root->left && root->right== NULL)
+	//	//cout << "\t\tPredecessor is: " << root->key << endl;
+
+	////else
+	//{
+	//	if (loc->key > root->key )
+	//	return	predecessor(root->right, loc);
+	//	else
+	//	return	predecessor(root->left, loc);
+	//}
+		
+}
+Tree* Tree::successor(Tree* root, Tree* loc) {
+	Tree* success;
+	Tree* temp; 
+	Tree* flag;
+	temp = flag = NULL;
+	success = maxium(root);
+	if (success->key == loc->key)
+		return success;
+	if (loc->right != NULL)
+	{
+		success = minmum(loc->right);
+		return success;
+	}
+	else {
+		temp = loc;
+		while (temp!=NULL)
+		{
+			flag = temp->parent;
+			if (temp == flag->left)
+			{
+				success = flag;
+				return success;
+			}
+			else
+				temp = temp->parent;
+		}
+
+		//return loc;
+	}
+
+
+
+	return NULL;
+}
+void Tree::deleteNode(Tree* root, Tree* loc) {
+	Tree* temp = NULL;
+	temp = loc->parent;
+	Tree* flag = NULL;
+	Tree* flagParent;
+
+	if (loc->left == NULL && loc->right == NULL)
+	{
+		if (temp->right == loc)
+		{
+			temp->right = NULL;
+		}
+		else
+			temp->left = NULL;
+
+		delete loc;
+	}
+	else
+	{
+		if (loc->right != NULL && loc->left != NULL)
+		{
+			flag = maxium(loc->left);
+			flagParent = flag->parent;
+			loc->key = flag->key;
+			if (flagParent->left == flag)
+				flagParent->left = NULL;
+			else
+				flagParent->right = NULL;
+
+			delete flag;
+		}
+		else if (loc->right != NULL)
+		{
+			flag = loc->right;
+			if (temp->right == loc)
+
+				temp->right = flag;
+			else
+				temp->left = flag;
+
+				flag->parent = temp;
+				delete loc;
+		}
+		else
+		{
+			flag = loc->left;
+			if (temp->right == loc)
+				temp->right = flag;
+			else
+				temp->left = flag;
+			flag->parent = temp;
+			delete loc;
+		}
+
+	}
+
+	/*if (loc->left == NULL && loc->right == NULL)
+		delete loc;
+	else {
+		
+		if (loc->left != NULL || loc->right != NULL)
+		{
+			if (loc->left != NULL)
+			{
+				temp = loc->parent;
+				temp->right = loc->left;
+				delete loc;
+				temp->right->parent = temp;
+
+				cout << "\tTemp= " << temp->key << endl;
+				cout << "\t Temp.right= " << temp->right->key << endl;
+				cout << "\t temp.right.parent= " << temp->right->parent->key << endl;
+			}
+		}
+
+	}*/
+	
+}
+int main() {
+	int option;
+	Tree tree;
+	Tree* head = NULL;
+	Tree* foundAt;
+	int num;
+	//bool founded;
+	do {
+		cout << "\t\t Select your Choice: " << endl;
+		cout << "\t\t 1. Create: " << endl;
+		cout << "\t\t 2. Display: " << endl;
+		cout << "\t\t 3. Search: " << endl;
+		cout << "\t\t 4. Find MinImum: " << endl;
+		cout << "\t\t 5. Find Maximum: " << endl;
+		cout << "\t\t 6. Predecessor: " << endl;
+		cout << "\t\t 7. Successor: " << endl;
+		cout << "\t\t 8. Delete: " << endl;
+		cout << "\t\t 9. Exit: ";
+		cin >> option;
+		switch (option)
+		{
+		case 1: 
+			tree.create(head);
+			break;
+		case 2: 
+			tree.display(head);
+			break;
+		case 3:
+			cout << "\t\t Enter the value you want to Search: ";
+			cin >> num;
+			foundAt = tree.ser(head,num);
+			if (foundAt !=NULL)
+				cout << "\t\t Value is existied. " << endl;
+			else
+				cout << "\t\t NOT existied. " << endl;
+			break;
+		case 4: 
+			foundAt= tree.minmum(head);
+			cout << "\t\tMinmum is= " << foundAt->key << endl;
+			break;
+		case 5: 
+			foundAt = tree.maxium(head);
+			cout << "\t\tMinxium is= " << foundAt->key << endl;
+			break;
+		case 6:
+			cout << "\t\t Enter the value you want to Find predecessor: ";
+			cin >> num;
+			foundAt = tree.ser(head,num);
+			if (foundAt != NULL)
+			{
+			foundAt=tree.predecessor(head,foundAt);
+			cout << "\t\tPredecessor is: " << foundAt->key << endl;
+			}
+			else
+				cout << "\t\t NOT existied. " << endl;
+			break;
+		case 7:
+			cout << "\t\t Enter the value you want to Find Successor: ";
+			cin >> num;
+			foundAt = tree.ser(head, num);
+			if (foundAt != NULL)
+			{
+				foundAt = tree.successor(head, foundAt);
+				cout << "\t\tSuccessor is: " << foundAt->key << endl;
+			}
+			else
+				cout << "\t\t NOT existied. " << endl;
+			break;
+		case 8:
+			cout << "\t\t Enter the value you want to Delete: ";
+			cin >> num;
+			foundAt = tree.ser(head, num);
+			if (foundAt != NULL)
+			{
+				tree.deleteNode(head, foundAt);
+				cout << "\t\t Seccssufuly Deleted " << endl;
+			}
+			else
+				cout << "\t\t NOT existied. " << endl;
+			break;
+		case 9: 
+			cout << "\t\t Thank you For Using the Program. " << endl;
+			break;
+		default:
+			cout << "\t\t Wrong Choice " << endl;
+			break;
+		}
+
+
+	} while (option != 9);
+	
+
+	
+
+
+
+	return 0; 
+}

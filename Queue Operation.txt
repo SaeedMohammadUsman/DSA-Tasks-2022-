@@ -1,0 +1,690 @@
+///////////////////////////////////////////////////////////////////////////
+//*************************************************************************
+// DSA BST Practice														  * 
+// Developer:Mohammad Usman												  *
+// problem statement: Queue Operation					 				  *
+// DAte: 14/5/2022														  *
+// Submited to : Dr. Muhammad Nadeem							          *
+//*************************************************************************
+///////////////////////////////////////////////////////////////////////////
+#include <iostream>
+#define MAX 5
+using namespace std; 
+
+class queue {
+private: 
+	int front = -1; 
+	int rear = -1;
+	int queArr[MAX];
+public:
+	void qMenue();
+	void enQueue();
+	void deQueue();
+	void display();
+	void peek();
+	bool isFull();
+	bool isEmpty( );
+
+};
+// Queue Funtions Starts. 
+void queue::qMenue() {
+	system("cls");
+	int choice;
+	do {
+		cout << "\t\t Please Select your Choice: " << endl;
+		cout << "\t\t 1. Insert [EnQueue] " << endl;
+		cout << "\t\t 2. Delete [DeQueue] " << endl;
+		cout << "\t\t 3. Display " << endl;
+		cout << "\t\t 4. Peek " << endl;
+		cout << "\t\t 5. IsFull " << endl;
+		cout << "\t\t 6. IsEmpty " << endl;
+		cout << "\t\t 7. Back to Main Menue ";
+		cin >> choice;
+
+		switch (choice)
+		{
+		case 1: 
+			enQueue();
+			break;
+		case 2: 
+			deQueue();
+			break;
+
+		case 3:
+			display();
+			break;
+		case 4:
+			peek();
+			break;
+		case 5:
+			if (isFull())
+				cout << "\t\tQueue is FULL. " << endl;
+			else 
+				cout << "\t\tQueue is NOT FULL. " << endl;
+			break;
+		case 6:
+			if (isEmpty())
+				cout << "\t\tQueue is Empty. " << endl;
+			else
+				cout << "\t\tQueue is NOT Empty. " << endl;
+			break;
+		case 7:
+			//nothing 
+			break;
+		default:
+			cout << "\t\t WRONG Choice! Try Again. " << endl;
+			break;
+		}
+	} while (choice != 7);
+}
+void queue::enQueue() {
+	system("cls");
+	if (isFull()) //it mean that queue is full, so enqueue is not possiable
+		cout << "\t\t You Can't insert item. Queue is FULL. " << endl;
+	else
+	{
+		cout << "\t\t Enter the item: ";
+
+		if (isEmpty()) // it mean that queue is empty so we insert first element
+			front = rear = 0; // now front & rear point to the index 0 of array. 
+			   //cin >> queArr[rear];
+		else // it mean we have some element in our array, so just increase the number of rear
+			rear++;
+		//cin >> queArr[rear];
+		cin >> queArr[rear]; // store the element in to the rear. 
+		cout << "\t\t Suessuffly enqued. " << endl;
+
+	}
+}
+void queue::deQueue() {
+	system("cls");
+
+	if (isEmpty()) // queue is empty, no data to remove
+		cout << "\t\t You Can't Delete item. Queue is Empty. " << endl;
+	else if (front == rear) // it mean that in our list we have a single value
+	{
+		front = rear = -1;// make array empty 
+		cout << "\t\t Suessuffly dequed. " << endl;
+
+	}
+	else
+	{
+		for (int i = front; i < rear; i++)
+			queArr[i] = queArr[i + 1]; // shift all element one item back
+		rear--; // decrement the rear by one 
+		cout << "\t\t Suessuffly dequed. " << endl;
+	}
+}
+void queue::display()
+{
+	system("cls");
+
+	if (isEmpty())
+		cout << "\t\t You Can't Display item. Queue is Empty. " << endl;
+	else
+	{
+		cout << "\t\t Your Data is : \n \t\t\ ";
+		for (int i = front; i <= rear; i++)
+			cout << queArr[i] << "  ";
+	}
+	cout << endl;
+}
+void queue::peek() {
+	system("cls");
+
+	if (isEmpty())
+		cout << "\t\t You Can't Peek item. Queue is Empty. " << endl;
+	else
+		cout << "\n\t\tPeek = " << queArr[front] << endl;
+}
+bool queue:: isFull() {
+	if (rear == MAX-1)
+		return true;
+	else
+		return false;
+}
+bool queue:: isEmpty() {
+	if (front == -1 && rear == -1)
+		return true;
+	else
+		return false;
+}
+
+// Queue Funtions Ends. 
+
+class deque {
+	int dFront = -1;
+	int dRear = -1;
+	int dequeArr[MAX];
+public:
+	void deqMenue();
+	void pushRear();
+	void pushFront();
+	void popRear();
+	void popFront();
+	void deqDisplay();
+	bool deqisFull();
+	bool deqisEmpty();
+};
+// Deque Funtions Starts. 
+
+void deque::deqMenue() {
+	int option;
+	system("cls");
+	do {
+		cout << "\t\t Please Select your Choice: " << endl;
+		cout << "\t\t 1. Push[Rear] " << endl;
+		cout << "\t\t 2. Push[Front] " << endl;
+		cout << "\t\t 3. Pop[Rear] " << endl;
+		cout << "\t\t 4. Pop[Front] " << endl;
+		cout << "\t\t 5. Display " << endl;
+		cout << "\t\t 6. IsFull " << endl;
+		cout << "\t\t 7. IsEmpty " << endl;
+		cout << "\t\t 8. Back to Main Menue ";
+		cin >> option;
+
+		switch (option)
+		{
+		case 1:
+			pushRear();
+			break;
+		case 2:
+			pushFront();
+			break;
+		case 3:
+			popRear();
+			break;
+		case 4:
+			popFront();
+			break;
+		case 5:
+			deqDisplay();
+			break;
+		case 6:
+			if (deqisFull())
+				cout << "\t\tDeque is FULL. " << endl;
+			else
+				cout << "\t\tDeque is NOT FULL. " << endl;
+			break;
+		case 7:
+			if (deqisEmpty())
+				cout << "\t\tDeque is Empty. " << endl;
+			else
+				cout << "\t\tDeque is NOT Empty. " << endl;
+			break;
+		case 8: 
+			//nothing 
+		default:
+			cout << "\t\t WRONG Choice! Try Again. " << endl;
+			break;
+		}
+	} while (option != 8);
+
+}
+void deque::pushRear() {
+	if (deqisFull())
+		cout << "\t\t You Can't insert item. Deque is FULL. " << endl;
+
+	else {
+		cout << "\t\t Enter the item: ";
+		if (deqisEmpty())// if this is the first element so
+		{
+			dRear = dFront = 0;// change the value from -1 to 0
+		}
+		else
+			dRear++;// if its not the first element , so add it in the rear
+
+		cin >> dequeArr[dRear];// store the value
+		cout << "\t\t Sucessfully pushed at Rear " << endl;
+
+	}
+
+}
+void deque::pushFront() {
+	system("cls");
+
+	if (deqisFull())
+		cout << "\t\t You Can't insert item. Queue is FULL. " << endl;
+	else
+	{
+		if (deqisEmpty())
+		{
+			dRear = dFront = 0; // like above 
+
+		}
+		else{
+			dRear++; // increse the drear by one 
+			for (int i = dRear; i >= dFront; i--)
+				dequeArr[i + 1] = dequeArr[i];// shfit the whole element ont postion forword
+		}
+		cout << "\t\t Enter the item: ";
+		cin >> dequeArr[dFront];// store the value at front
+		cout << "\t\t Sucessfully pushed at Front " << endl;
+
+
+	}
+	
+
+}
+void deque::popRear() {
+	system("cls");
+
+	if (deqisEmpty())
+		cout << "\t\t You Can't Delete item. Deque is Empty. " << endl;
+	else
+	{
+		if (dRear == dFront)// it mean that we have only one element
+			dRear = dFront = -1;// make it empty 
+		else
+			dRear --;// decrement the value of rear by one
+		cout << "\t\t Suessuffly poped from the Rear. " << endl;
+		
+	}
+
+}
+void deque::popFront() {
+	system("cls");
+	if (deqisEmpty()) // queue is empty, no data to remove
+		cout << "\t\t You Can't Delete item. Deque is Empty. " << endl;
+	else if (dFront == dRear) // it mean that in our list we have a single value
+	{
+		dRear = dFront = -1;// like above , only one element is there
+		cout << "\t\t Suessuffly poped from the Rear. " << endl;
+
+	}
+	else
+	{
+		for (int i = dFront; i < dRear; i++)
+			dequeArr[i] = dequeArr[i + 1]; // shift all element one item back
+		dRear--; // decrement the rear by one 
+		cout << "\t\t Suessuffly poped from the Rear. " << endl;
+
+	}
+}
+void deque::deqDisplay() {
+	system("cls");
+	if (deqisEmpty())
+		cout << "\t\t You Can't Display item. Deque is Empty. " << endl;
+	else
+	{
+		cout << "\t\t Your Data is : \n \t\t\ ";
+		for (int i = dFront; i <= dRear; i++)
+			cout << dequeArr[i] << "  "; // display data start form front and end to the rear
+	}
+	cout << endl;
+}
+bool deque::deqisFull() {
+
+	if (dRear == MAX - 1) // if rear is equil to the Max value so its full
+		return true;
+	else
+		return false;
+}
+bool deque::deqisEmpty() {
+	if (dRear == -1 && dFront == -1)// if both rear & front equl to -1 it mean its empty
+		return true;
+	else
+		return false;
+}
+
+// Deque Funtions Ends. 
+
+
+// Queue  using link list 
+
+class queueLink {
+private:
+	struct Node
+	{
+		int data;
+		Node* next;
+	};
+	Node* head = NULL;
+	Node* newNode;
+	Node* temp;
+	Node * rear = NULL;
+	Node* front= NULL;
+public:
+	void menue();
+	void enQueue();
+	void deQueue();
+	void display();
+	void peek();
+	bool isFull();
+	bool isEmpty();
+
+};
+
+// Queue Using link list Funtions Starts. 
+void queueLink::menue() {
+	system("cls");
+	int choice;
+	do {
+		cout << "\t\t Please Select your Choice: " << endl;
+		cout << "\t\t 1. Insert [EnQueue] " << endl;
+		cout << "\t\t 2. Delete [DeQueue] " << endl;
+		cout << "\t\t 3. Display " << endl;
+		cout << "\t\t 4. Peek " << endl;
+		cout << "\t\t 5. IsFull " << endl;
+		cout << "\t\t 6. IsEmpty " << endl;
+		cout << "\t\t 7. Back to Main Menue ";
+		cin >> choice;
+
+		switch (choice)
+		{
+		case 1:
+			enQueue();
+			break;
+		case 2:
+			deQueue();
+			break;
+
+		case 3:
+			display();
+			break;
+		case 4:
+			peek();
+			break;
+		case 5:
+			if (isFull())
+				
+				cout << "\t\tLink List Queue is Never Full. so its always be true. " << endl;
+			
+			break;
+		case 6:
+			if (isEmpty())
+				cout << "\t\tLink List Queue is Empty. " << endl;
+			else
+				cout << "\t\tLink list Queue is NOT Empty. " << endl;
+			break;
+		case 7:
+			//nothing 
+			break;
+		default:
+			cout << "\t\t WRONG Choice! Try Again. " << endl;
+			break;
+		}
+	} while (choice != 7);
+}
+void queueLink::enQueue() {
+	system("cls");
+	newNode = new Node;
+	newNode->next = NULL;
+	cout << "\t\t Enter the item: ";
+	cin >> newNode->data;
+
+	if (isEmpty())// this is first node
+	{
+		head = newNode;
+		rear = front = head;
+	}
+	else
+	{
+		rear->next = newNode;
+		rear = newNode;
+	}
+	cout << "\t\t Suessuffly enqued. " << endl;
+}
+void queueLink::deQueue() {
+	system("cls");
+
+	if (isEmpty()) // queue is empty, no data to remove
+		cout << "\t\t You Can't Delete item. Queue is Empty. " << endl;
+	else if (front == rear) // it mean that in our list we have a single value
+	{
+		delete front;
+		front = rear =head= NULL;// make every thing to first postion  
+		cout << "\t\t Suessuffly dequed. " << endl;
+
+	}
+	else
+	{
+		head = front->next;
+		delete front;
+		front = head;
+		cout << "\t\t Suessuffly dequed. " << endl;
+	}
+
+
+}
+void queueLink::peek() {
+	system("cls");
+	if (isEmpty())
+		cout << "\t\t You Can't Peek item. Queue is Empty. " << endl;
+	else
+		cout << "\n\t\tPeek = " << front->data<< endl;
+}
+bool queueLink::isFull() {
+
+	return true;// link list will never be full
+	// because you can create new node dynamicly  
+
+}
+bool queueLink::isEmpty() {
+	if (front == NULL)
+		return true;
+	else
+		return false;
+}
+void queueLink::display() {
+	system("cls");
+	if (isEmpty())
+		cout << "\t\tQueue is empty, NO data to Show " << endl;
+	else 
+	{
+	temp = head;
+	cout << "\t Stored Data in Queue Using Link List is: " << endl;
+	cout << "\t ";
+	while (temp != NULL)
+	{
+		cout << " " << temp->data;
+		temp = temp->next;
+	}
+	cout << endl;
+	}
+}
+
+// Queue Funtions Ends. 
+
+//Queue using dubble link list
+class dubblyLinklistQueue {
+private:
+	struct dNode
+	{
+		int data;
+		dNode* right;
+		dNode* left;
+	};
+	dNode* head = NULL;
+	dNode* newNode;
+	dNode* temp;
+	dNode* rear = NULL;
+	dNode* front = NULL;
+public:
+	void menue();
+	void enQueue();
+	void deQueue();
+	void display();
+	void peek();
+	bool isFull();
+	bool isEmpty();
+
+};
+
+
+// Queue Using dubbley link list Funtions Starts. 
+void dubblyLinklistQueue::menue() {
+	system("cls");
+	int choice;
+	do {
+		cout << "\t\t Please Select your Choice: " << endl;
+		cout << "\t\t 1. Insert [EnQueue] " << endl;
+		cout << "\t\t 2. Delete [DeQueue] " << endl;
+		cout << "\t\t 3. Display " << endl;
+		cout << "\t\t 4. Peek " << endl;
+		cout << "\t\t 5. IsFull " << endl;
+		cout << "\t\t 6. IsEmpty " << endl;
+		cout << "\t\t 7. Back to Main Menue ";
+		cin >> choice;
+
+		switch (choice)
+		{
+		case 1:
+			enQueue();
+			break;
+		case 2:
+			deQueue();
+			break;
+
+		case 3:
+			display();
+			break;
+		case 4:
+			peek();
+			break;
+		case 5:
+			if (isFull())
+				cout << "\t\tDubbly Link List Queue is Never Full. so its always be true. " << endl;
+
+			break;
+		case 6:
+			if (isEmpty())
+				cout << "\t\tDubbly Link List Queue is Empty. " << endl;
+			else
+				cout << "\t\tDubbly Link list Queue is NOT Empty. " << endl;
+			break;
+		case 7:
+			//nothing 
+			break;
+		default:
+			cout << "\t\t WRONG Choice! Try Again. " << endl;
+			break;
+		}
+	} while (choice != 7);
+}
+void dubblyLinklistQueue::enQueue() {
+	system("cls");
+	newNode = new dNode;
+	newNode->left = NULL;
+	newNode->right = NULL;
+
+	cout << "\t\t Enter the item: ";
+	cin >> newNode->data;
+
+	if (isEmpty())// this is first node
+	{
+		head = newNode;
+		rear = front = head;
+	}
+	else
+	{
+		rear->right = newNode;
+		newNode->left = rear;
+		rear = newNode;
+	}
+	cout << "\t\t Suessuffly enqued. " << endl;
+}
+void dubblyLinklistQueue::deQueue() {
+	system("cls");
+
+	if (isEmpty()) // queue is empty, no data to remove
+		cout << "\t\t You Can't Delete item. Queue is Empty. " << endl;
+	else if (front == rear) // it mean that in our list we have a single value
+	{
+		delete front;
+		front = rear = head = NULL;// make every thing to first postion  
+		cout << "\t\t Suessuffly dequed. " << endl;
+
+	}
+	else
+	{
+		head = front->right;
+		delete front;
+		head->left = NULL;
+		front = head;
+		cout << "\t\t Suessuffly dequed. " << endl;
+	}
+
+
+}
+void dubblyLinklistQueue::peek() {
+	system("cls");
+	if (isEmpty())
+		cout << "\t\t You Can't Peek item. Queue is Empty. " << endl;
+	else
+		cout << "\n\t\tPeek = " << front->data << endl;
+}
+bool dubblyLinklistQueue::isFull() {
+
+	return true;// link list will never be full
+	// because you can create new node dynamicly  
+
+}
+bool dubblyLinklistQueue::isEmpty() {
+	if (front == NULL)
+		return true;
+	else
+		return false;
+}
+void dubblyLinklistQueue::display() {
+	system("cls");
+	if (isEmpty())
+		cout << "\t\tQueue is empty, NO data to Show " << endl;
+	else
+	{
+		temp = head;
+		cout << "\t Stored Data in Queue Using Dubbley Link List is: " << endl;
+		cout << "\t ";
+		while (temp != NULL)
+		{
+			cout << " " << temp->data;
+			temp = temp->right;
+		}
+		cout << endl;
+	}
+}
+
+
+int main() {
+	queue quObj;
+	deque deQuObj;
+	queueLink queLinkObj;
+	dubblyLinklistQueue dubblylinkOBJ;
+
+	int opt;
+
+	do {
+		
+		cout << "\t\t Please Select your Choice: " << endl;
+		cout << "\t\t 1. Queue " << endl;
+		cout << "\t\t 2. Deque " << endl;
+		cout << "\t\t 3. Queue Using Link list " << endl;
+		cout << "\t\t 4. Queue Using Dubbley Link list " << endl;
+		cout << "\t\t 5. Exit ";
+		cin >> opt;
+		
+		switch (opt)
+		{
+		case 1: 
+			quObj.qMenue();
+			
+			break;
+		case 2: 
+			deQuObj.deqMenue();
+			break;
+		case 3: 
+			queLinkObj.menue();
+			break;
+		case 4: 
+			dubblylinkOBJ.menue();
+			break;
+		case 5: 
+			cout << "\t\t Thank YOU For Using the Program. " << endl;
+			break;
+		default:
+			cout << "\t\t WRONG Choice! Try Again. " << endl;
+			break;
+		}
+	} while (opt != 5);
+	return 0; 
+}

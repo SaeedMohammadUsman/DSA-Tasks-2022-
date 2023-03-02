@@ -1,0 +1,314 @@
+///////////////////////////////////////////////////////////////////////////
+//*************************************************************************
+// DSA BST Practice														  * 
+// Developer:Mohammad Usman												  *
+// problem statement: Stack Operation					 				  *
+// DAte: 14/5/2022														  *
+// Submited to : Dr. Muhammad Nadeem							          *
+//*************************************************************************
+///////////////////////////////////////////////////////////////////////////
+
+#include <iostream>
+#include <stack>
+
+using namespace std; 
+ #define MAX 30
+class Stack {
+private:
+	int arry[MAX];
+	char infixStr[MAX];
+	int top = -1;
+public:
+	void push();
+	void pop();
+	void peek();
+	bool isEmpty(int);
+	bool isFull(int);
+	void display();
+	void temp(int );
+	void convertToPostfix();
+};
+void Stack::push() {
+	system("cls");
+	if (isFull(top))
+	{
+		cout << "\t\t Sorry! Stack is Full. " << endl;
+		cout << "\t\t You Can not Push data. " << endl;
+		return;
+	}
+	else
+	{
+		cout << "\t\ Enter the data. ";
+		cin >> arry[++top];// increment the value of top then store the data 
+		cout << "\t\t Successfully Pushed. " << endl;
+	}
+	
+}
+void Stack::pop() {
+	system("cls");
+	if (isEmpty(top))
+		cout << "\t\t Stack is Empty. " << endl;
+	else
+	{
+		top--;// just decrement the value of top 
+		cout << "\t\t Successfully Poped. " << endl;
+	}
+
+
+}
+void Stack::peek() {
+	system("cls");
+	if (isEmpty(top))
+		cout << "\t\t Stack is Empty. no Peek " << endl;
+	else
+		cout << "\t\t Peek= " << arry[top] << endl; // display the value of the top
+}
+void Stack::display() {
+	system("cls");
+
+	int i ; 
+	if (isEmpty(top))
+		cout << "\t\tTheier is no DATA, STACK is Empty. " << endl;
+	else
+	{
+		cout << "\t\t Stack is: " << endl;
+		for (i = 0; i <= top; i++)
+			cout <<"\t\t "<< arry[i] << endl;// display the value start from 0 till the top
+	}
+}
+bool Stack::isEmpty(int Topp) {
+	if (Topp == -1)// it mean stack is empty
+		return true;
+	else
+		return false;
+}
+bool Stack::isFull(int Topp) {
+	if (Topp == MAX-1)// it mean that satck is full
+		return true;
+	else
+		return false;
+}
+void Stack::temp(int num) {
+	/*this is a temporary function, it use to jump into the class
+		for accessing to the value of top, because the[isEmpty & isFull]
+			functions need a parameter to pass, but we can't pass it from the 
+			main funtion, so with the help of this, we go through it. 
+			*/
+	system("cls");
+	if (num == 5)
+	{
+		if (isEmpty(top))
+			cout << "\t\t Stack is Empty. " << endl;
+		else
+			cout << "\t\t Stack is Not Empty. " << endl;
+	}
+	else 
+		if (isFull(top))
+			cout << "\t\t Stack is Full. " << endl;
+		else
+			cout << "\t\t Stack is not Full. " << endl;
+}
+void Stack::convertToPostfix() {
+	stack<char> fun;// making on object of preprocessor <stack>
+	char cha;
+	string postFix;
+	cin.ignore();
+	cout << "\t\t Enter the expresstion First: ";
+	cin.getline(infixStr, MAX);
+	for (int i = 0; i < strlen(infixStr); i++)
+	{
+		cha = infixStr[i];// get one charecther of expristion
+		if ((cha>= 'a' && cha <= 'z') || (cha >= 'A' && cha <= 'Z'))// if it was apperend
+		{
+			postFix = postFix + cha; //store it in postfix string
+		}
+		else 
+		{
+			switch (cha)
+			{
+			case '(':
+				fun.push( '(' );// if its opening bracket
+				break;
+			case '+':
+			case '-':
+				if (fun.empty())
+					fun.push(cha);// if stack is empty 
+				else if (fun.top() == '(')// if the top is opening brakcet
+					fun.push(cha);
+
+				else if (fun.top() == '+' || fun.top()=='-')// if top value is in same precedence
+				{
+					postFix = postFix + fun.top(); // add top value to the postfix expresstion
+					fun.pop();
+					fun.push(cha);
+				}
+				else
+				{				
+					while (!fun.empty())
+					{
+						if (fun.top() == '*' || fun.top() == '/' || fun.top() == '^')// if its high precedence
+						{
+							postFix = postFix + fun.top();
+							fun.pop();
+						}
+						else// its same precedence
+						{
+							postFix = postFix + fun.top();
+							fun.pop();
+							break;
+						}
+					}
+						fun.push(cha);
+				}
+				break;
+			case '*':
+			case '/':
+				
+				if (fun.empty())
+					fun.push(cha);
+				else if (fun.top() == '(')
+					fun.push(cha);
+
+				else if (fun.top() == '+' || fun.top() == '-')// low precedence
+				{
+					fun.push(cha);
+
+				}
+				else if (fun.top() == '*' || fun.top() == '/')// same precedence
+				{
+					postFix = postFix + fun.top();
+					fun.pop();
+					fun.push(cha);
+				}
+				else if (fun.top() == '^')// top value is high precedence
+				{
+					postFix = postFix + fun.top();// add to postifx
+					fun.pop();
+					while (fun.top() == '/' || fun.top() =='*')// get all value of same precedence of stack
+					{
+						postFix = postFix + fun.top();
+						fun.pop();
+					}
+					
+					fun.push(cha);
+				}
+
+				//else
+				//{
+
+				//while (!fun.empty()) 
+				//	if(fun.top() == '*' || fun.top() == '/')
+				//	// stack should be empty or top value come high precedence
+				//	{
+				//	postFix = postFix + fun.top();
+				//	fun.pop();
+				//	}
+
+				//	fun.push(cha);
+				//}
+				break;
+			case '^':
+				if (fun.empty())
+					fun.push(cha);
+				else if (fun.top() == '(')
+					fun.push(cha);
+				else if (fun.top() == '^')// same precedece
+				{
+					postFix = postFix + fun.top();
+					fun.pop();
+					fun.push(cha);
+				}
+				else // top is low precedece
+					fun.push(cha);
+				break;
+			case ')':
+				while (fun.top() != '(')// untill top value become opening bracket
+				{
+					postFix = postFix + fun.top();
+					
+					fun.pop();
+				}
+				fun.pop();// pop up the bracket
+				break;
+			}
+		}
+
+
+	}
+
+	while (!fun.empty())
+	{
+		postFix = postFix + fun.top();
+		fun.pop();
+	}
+
+	//postFix[j] = NULL;
+	cout << "\t\t PostFix Operation is: "<< postFix << endl;
+}
+
+int main()
+{
+	int opt;
+	Stack stObj;
+	do {
+		cout << "\t\tSelect your Choice: " << endl;
+		cout << "\t\t1. Push " << endl;
+		cout << "\t\t2. Pop " << endl;
+		cout << "\t\t3. Peek " << endl;
+		cout << "\t\t4. Display " << endl;
+		cout << "\t\t5. isEmpty? " << endl;
+		cout << "\t\t6. isFull? " << endl;
+		cout << "\t\t7. infix To Postfix Convert " << endl;
+
+		cout << "\t\t8. Exit ";
+		cin >> opt;
+
+		switch (opt)
+		{
+		case 1: 
+			stObj.push();
+			break;
+		case 2: 
+			stObj.pop();
+			break;
+		case 3: 
+			stObj.peek();
+			break;
+		case 4: 
+			stObj.display();
+			break;
+		case 5:
+
+			/*	if (stObj.isEmpty())
+					cout << "\t\t Stack is Empty. " << endl;
+				else
+					cout << "\t\t Stack is not Empty. " << endl;*/
+			stObj.temp(5);
+
+			break;
+		case 6: 
+
+			/*	if (stObj.isFull())
+					cout << "\t\t Stack is Full. " << endl;
+				else
+					cout << "\t\t Stack is not Full. " << endl;*/
+			stObj.temp(6);
+			break;
+		case 7:
+			stObj.convertToPostfix();
+			break;
+
+		case 8: 
+			cout << "\t\t Thank you For using the Program. " << endl;
+			break;
+		default:
+			cout << "\t\t Wrong Choice. Try Again. " << endl;
+			break;
+		}
+
+
+
+
+		
+	} while (opt != 8);
+}

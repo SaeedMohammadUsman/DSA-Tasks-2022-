@@ -1,0 +1,184 @@
+///////////////////////////////////////////////////////////////////////////
+//*************************************************************************
+// DSA BST Practice														  * 
+// Developer:Mohammad Usman												  *
+// problem statement: Heap Operation					 				  *
+// DAte: 26/5/2022														  *
+// Submited to : Dr. Muhammad Nadeem							          *
+//*************************************************************************
+///////////////////////////////////////////////////////////////////////////
+#include <iostream>
+using namespace std; 
+#define MAX 10
+void getData(int[], int, int &);
+void displayData(int[], int);
+void maxBuild(int[], int);
+void maxHeapify(int[],int,int);
+void maxSorted(int[], int);
+void insert(int[], int&);
+void Delete(int[], int&, int&);
+void swap(int[], int&, int&);
+int main() {
+	int arr[MAX];
+	int numOfElement;
+	int option;
+	int tracker =0;
+	do {
+		cout << "\tinput the size | max= "<<MAX<< " ";
+		cin >> numOfElement;
+		if (numOfElement >= 0 && numOfElement <= MAX)
+			break;
+		else
+			cout << "\tneed valied input. " << endl;
+	} while (true);
+
+	do {
+		
+		cout << "\t\t Choice your Option: " << endl;
+		cout << "\t\t 1. Get Data: " << endl;
+		cout << "\t\t 2. Diplay Data: " << endl;
+		cout << "\t\t 3. Max Heap Build:  " << endl;
+		cout << "\t\t 4. Max Sorted: " << endl;
+		cout << "\t\t 5. Insert : " << endl;
+		cout << "\t\t 6. Delete : " << endl;
+		cout << "\t\t 7. Exit ";
+
+		cin >> option;
+		switch (option)
+		{
+		case 1: 
+			getData(arr, numOfElement, tracker);
+			break;
+		case 2: 
+			if (tracker ==0)
+				cout << "\t\t Array is Empty. No data to Show. " << endl;
+			else
+				displayData(arr, numOfElement);
+			break;
+		case 3:
+			if (tracker == 0)
+
+				cout << "\t\t Array is Empty. " << endl;
+			else
+				maxBuild(arr, numOfElement);
+			break;
+		case 4: 
+			if (tracker == 0)
+
+				cout << "\t\t Array is Empty.  " << endl;
+			else
+			maxSorted(arr, numOfElement);
+			break;
+		case 5: 
+			if (tracker == 0)
+
+				cout << "\t\t Array is Empty. " << endl;
+			else
+			{
+				if (numOfElement < MAX)
+					insert(arr, numOfElement);
+				else 
+					cout << "\t\t Array is Full. " << endl;
+			}
+			break;
+
+		case 6: 
+			if (tracker == 0)
+
+				cout << "\t\t Array is Empty. " << endl;
+			else
+				Delete(arr, numOfElement, tracker);
+			break;
+		case 7: 
+			//
+			break;
+		default:
+			cout << "\t\t Wrong Choise . " << endl;
+			break;
+		}
+	} while (option != 7);
+
+	return 0; 
+}
+void getData(int arrData[], int count, int & track) {
+	system("cls");
+	cout << "\t\t Enter Data to Store in Array: "<<endl;
+	for (int i = 0; i < count; i++)
+	{
+		cin >> arrData[i];
+		track++;
+	}
+	cout << "\t\tSueccsfully Stored. " << endl;
+	
+}
+void displayData(int arrData[], int count) {
+	system("cls");
+	cout << "\t\t Data is : \n \t\t ";
+	for (int i = 0; i < count; i++)
+		cout << "  " << arrData[i];
+	cout << endl;
+}
+void maxBuild(int arrData[], int count)
+{
+	int i = (count / 2) ;// number of leaf nodes
+
+	for (i; i >= 0; i--)
+		maxHeapify(arrData, count, i);
+	cout << "\t\tsuessfully maxHeap Builded." << endl;
+
+}
+void maxHeapify(int arrData[],int count, int index) {
+
+	int left = 2 * index + 1;// because we start index from 0
+	int right = left + 1;
+	int large = index;
+	
+	if(left < count && arrData[left] > arrData[large])// if the left index is exist and its value grater then large
+	
+		large = left;// change the value of large , so now large is point to the left index which is graher
+
+	if (right < count && arrData[right]>arrData[large])//if the right index is exist and its value grater then large
+	
+		large = right;// change the value of large
+	
+	if (index != large)
+	{
+		swap(arrData, arrData[index], arrData[large]);
+		maxHeapify(arrData, count, large);// recursevly call this function untill the index & large have been not changed
+	}
+}
+void maxSorted(int arrData[], int count) {
+
+
+	for (int i = count-1; i >= 0; i--)// its strat from the last index and decrement untill reach to the 0 index
+	{
+		
+		swap(arrData[0], arrData[i]);// every time swap the first value[ zero index ] with the last valeu [i index]
+		maxHeapify(arrData, i,0);// then againg bring the heap properties to the remain data. 
+	}
+	cout << "\t\tSueccsfully Sorted. " << endl;
+
+}
+void insert(int arrData[], int &count)
+{
+	system("cls");
+	count++;// increse this
+	int i = count - 1;// stor at this index [because index is start from 0]
+	cout << "\t\t Enter New value to Store in Array: " << endl;
+	cin >> arrData[i];
+	maxBuild(arrData, count);// build heap againg 
+	
+}
+void Delete(int arrData[], int& count, int& track) {
+	int i = count - 1;
+	swap(arrData[0], arrData[i]);
+	count--;
+	track--;
+	maxBuild(arrData, count);
+}
+void swap(int arrData[], int& num1, int& num2) {
+	int temp;
+	temp = num1;
+	num1 = num2;
+	num2 = temp;
+}

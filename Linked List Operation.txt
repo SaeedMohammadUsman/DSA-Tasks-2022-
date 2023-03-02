@@ -1,0 +1,270 @@
+///////////////////////////////////////////////////////////////////////////
+//*************************************************************************
+// DSA BST Practice														  * 
+// Developer:Mohammad Usman												  *
+// problem statement: Linked List Operation					 			  *
+// DAte: 27/3/2022														  *
+// Submited to : Dr. Muhammad Nadeem							          *
+//*************************************************************************
+///////////////////////////////////////////////////////////////////////////
+#include <iostream>
+using namespace std;
+struct node {
+	int data;
+	node* next;
+};
+int readData( node *& );
+void displayData(node*);
+void insertData(node*&,int&, int, int);
+int searchData(node*, int);
+void deleteData(node*&, int, int &);
+int main()
+{
+	node* head = NULL;
+	int foundAt= -1;
+	int counter = 0;
+	int newData, postion,forSearch;
+	int option;
+	do {
+		cout << "\t*** Slect a Choice: " << endl;
+		cout << "\t1. Read Data: " << endl;
+		cout << "\t2. Display Data: " << endl;
+		cout << "\t3. insert Data: " << endl;
+		cout << "\t4. Search Data: " << endl;
+		cout << "\t5. Delete Data: " << endl;
+		cout << "\t6. Exit: ";
+		cin >> option; 
+		switch (option)
+		{
+		case 1:
+			counter = readData(head);
+			cout << "\t Data is Stored Successfuly. " << endl;
+			break;
+		case 2:
+			if (counter == 0)
+				cout << "\t Sorry Thier is no DATA. \n Please ADD DATA First. " << endl;
+			else
+			{
+				displayData(head);
+			}
+			break;
+		case 3:
+			if (counter == 0)
+				cout << "\t Sorry Thier is no DATA. \n Please ADD DATA First. " << endl;
+			else {
+			cout << "\t enter the postion: ";
+			cin >> postion;
+			if (postion <= counter + 1)
+			{
+				cout << "\t enter the value: ";
+				cin >> newData;
+				 insertData(head, counter,postion, newData);
+				cout << "\t New data is Stored Successfuly. " << endl;
+			}
+			else
+				cout << "\t insertaion is not Possible. " << endl;
+			}
+			break;
+		case 4: 
+			if (counter == 0)
+				cout << "\t Sorry Thier is no DATA. \n Please ADD DATA First. " << endl;
+			else {
+			cout << "\t Enter the value you want to search. ";
+				cin >> forSearch;
+				foundAt = searchData(head, forSearch);
+				if (foundAt!=-1)
+					cout << "\t Found at postion "<<foundAt<< " " << endl;
+				else
+					cout << "\t NOT Found. " << endl;
+			}
+				break;
+			case 5: 
+				if (counter == 0)
+					cout << "\t Sorry Thier is no DATA. \n Please ADD DATA First. " << endl;
+				else {
+					cout << "\t Enter the value you want to Delete. ";
+					cin >> forSearch;
+					foundAt = searchData(head, forSearch);
+					if (foundAt != -1)
+					{
+						deleteData(head, foundAt, counter);
+						cout << "\tSuccessfully deleted. " << endl;
+					}
+					else
+						cout << "\t NOT Found. " << endl;
+
+				}
+				break;
+				
+		case 6: 
+			cout << "\t Thank you for Using the Program" << endl;
+			break;
+		default:
+			cout << "\tInvolied input. Try again." << endl;
+			break;
+		}
+
+
+
+
+	} while (option != 6);
+	return 0;
+}
+
+
+
+int readData(node  *&first) {
+		system("cls");
+		int numberOfcreatedNode = 0; 
+		node * newNode, * temp;
+
+		first = newNode = temp = NULL;
+		int choice;
+		do {
+			cout << " Whant to add: " << endl;
+			cout << "1. yes " << endl;
+			cout << "2. NO ";
+			cin >> choice;
+
+			switch (choice)
+			{
+			case 1:
+
+
+				newNode = new node;
+				newNode->next = NULL;
+				cout << "Enter the data: ";
+				cin >> newNode->data;
+				numberOfcreatedNode++;
+				if (first == NULL)
+				{
+
+					first = newNode;
+				}
+				else
+					temp->next = newNode;
+					temp = newNode;
+
+
+				break;
+
+			case 2:
+				//nothing to do 
+				break;
+			default:
+				cout << "Wrong choice try again. " << endl;
+				break;
+			}
+		} while (choice != 2);
+	return numberOfcreatedNode;
+}
+void displayData(node * first)
+{
+	system("cls");
+	node* temp;
+	temp = first;
+	cout << "\t Stored Data is: " << endl;
+	cout << "\t ";
+	while (temp != NULL)
+	{
+		cout << " " << temp->data ;
+		temp = temp->next;
+	}
+	cout << endl;
+}
+void insertData(node*& first, int& count, int pos, int data) {
+	node* newNode, * temp;
+	system("cls");
+	if (pos == 1)
+	{
+		newNode = new node;
+		newNode->next = first;
+		newNode->data = data;
+		first = newNode;
+		count++;
+
+	}
+	else if (pos == count + 1)
+	{
+
+		temp = first;
+		while (temp->next != NULL)
+		{
+			temp = temp->next;
+		}
+
+		newNode = new node;
+		newNode->next = NULL;
+		newNode->data = data;
+		temp->next = newNode;
+		count++;
+
+	}
+	else
+	{
+		temp = first;
+		for (int i = 1; i < pos-1; i++)
+		{
+			temp = temp->next;
+		}
+	newNode = new node;
+	newNode->data = data;
+	newNode->next = temp->next;
+	temp->next = newNode;
+	count++;
+	}
+}
+int searchData(node* first, int nubSearch)
+{
+	system("cls");
+	node* temp;
+	temp = first;
+	bool check= false;
+	int pos = 1; 
+	while (temp!=NULL)
+	{
+		if (temp->data == nubSearch)
+		{
+			check = true;
+			break;
+		}
+
+		else
+		{
+			pos++;
+			temp = temp->next;
+		}
+	}
+	if (check)
+		return pos;
+	else
+		return -1;
+}
+void deleteData(node *& first, int posDelete, int &count)
+{
+	system("cls");
+	node* temp, *conector;
+	temp = conector = first;
+	if (posDelete == 1)
+	{
+		conector = first->next;
+		delete first;
+		count--;
+		first = conector;
+	}
+	else
+	{
+	for (int i = 1; i < posDelete; i++)
+	{
+		conector = temp;
+		temp = temp->next;
+
+	}
+	conector->next = temp->next;
+	delete temp;
+	count--;
+	}
+
+
+}
+
